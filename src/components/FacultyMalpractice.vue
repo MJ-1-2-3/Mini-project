@@ -9,7 +9,7 @@
           class="input"
           type="text"
           id="username"
-          v-model="username"
+          v-model="Name"
           placeholder="Name of Student"
         />
         <br />
@@ -18,7 +18,7 @@
           type="text"
           class="input"
           id="password"
-          v-model="password"
+          v-model="Register"
           placeholder="Batch"
         />
         <br />
@@ -26,7 +26,7 @@
           class="input"
           type="text"
           id="email"
-          v-model="email"
+          v-model="Class"
           placeholder="Exam Classroom"
         />
         <br />
@@ -34,7 +34,7 @@
           class="input"
           type="text"
           id="email"
-          v-model="email"
+          v-model="Remarks"
           placeholder="Remarks(in 15 words or so)"
         />
         <br />
@@ -53,9 +53,10 @@ export default {
   data() {
     return {
       showModal: false,
-      username: "",
-      password: "",
-      email: "",
+      Name: "",
+      Register : "",
+      Class : "",
+      Remarks: "",
     };
   },
   methods:{
