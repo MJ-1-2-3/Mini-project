@@ -6,11 +6,11 @@
       <div class="loginpanel">
         <div class="inputfield">
           <i class="fa-regular fa-user"></i>
-          <input required type="text" placeholder="Username" v-model="text"/>
+          <input required type="text" placeholder="Username" v-model="username"/>
         </div>
         <div class="inputfield">
           <i class="fa-regular fa-keyboard"></i>
-          <input required type="password" placeholder="Password" v-model="pass"/>
+          <input required type="password" placeholder="Password" v-model="password"/>
         </div>
       </div>
       <div class="loginbutton">
@@ -25,27 +25,50 @@
   </template>
   
   <script>
-  export default {
-    name: 'LoginAdmin',
-    data(){
-      return{
-        text:'',
-        pass:'',
-      };
-    },
-    methods:{
-      submit(){
-        if(this.text==='admin' && this.pass==='admin') 
-        {
-          this.$router.push("/adminPage");
-        }
-        else{
-          alert(`Incorrect Credentials`);
-        }
+  import axios from 'axios'
+
+export default {
+  name: 'LoginAdmin',
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    submit() {
+      axios.defaults.headers.common['Authorization'] = ''
+      localStorage.removeItem('access')
+      const formData = {
+        username: this.username,
+        password: this.password
       }
+      axios
+        .post('/api/v1/jwt/create/', formData)
+        .then(response => {
+          console.log(response)
+
+          const access = response.data.access
+          // const refresh = response.data.refresh
+          this.$store.commit('setAccess', access)
+          // this.$store.refresh('setRefresh', refresh)
+          axios.defaults.headers.common['Authorization'] = 'JWT ' + access
+          localStorage.setItem('access', access)
+          // localStorage.setItem('refresh', refresh)
+          this.$nextTick(() => {
+            this.$router.push('/adminPage')
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
-  </script>
+}
+</script>
+
+
+
   
   <style scoped>
   *{

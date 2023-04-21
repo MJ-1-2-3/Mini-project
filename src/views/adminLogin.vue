@@ -9,6 +9,7 @@
 </template>
 
 <script>
+
 import Header from '../components/Header.vue';
 import LoginAdmin from '../components/LoginAdmin.vue'
 import Footer from '../components/Footer.vue'
