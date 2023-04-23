@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "AdminAddFacultyPage",
   components: {},
@@ -110,20 +111,47 @@ export default {
     openmodal() {
       this.showModal = true;
     },
-    addFaculty() {
-      // Add logic to send the form data to the server
-      this.faculties.push({
-        username: this.username,
-        password: this.password,
-        email: this.email,
-      });
+    // addFaculty() {
+    //   // Add logic to send the form data to the server
+    //   this.faculties.push({
+    //     username: this.username,
+    //     password: this.password,
+    //     email: this.email,
+    //   });
 
+    //   // Reset the form fields and close the modal
+    //   this.username = "";
+    //   this.password = "";
+    //   this.email = "";
+    //   this.showModal = false;
+    // },
+    addFaculty() {
+  // Create an object with the form data
+  const formData = {
+    username: this.username,
+    password: this.password,
+    email: this.email
+  };
+
+  // Send the form data to the server using axios
+  axios.post('/add_faculty/', formData)
+    .then(response => {
+      // Handle the response from the server
+      console.log(response.data);
+      // Add the new faculty to the list
+      this.faculties.push(formData);
       // Reset the form fields and close the modal
       this.username = "";
       this.password = "";
       this.email = "";
       this.showModal = false;
-    },
+    })
+    .catch(error => {
+      // Handle any errors
+      console.error(error);
+    });
+},
+
     editFaculty(index) {
       alert("Editing faculty:", this.faculties[index]);
     },
